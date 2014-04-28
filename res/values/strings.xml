@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">AndroidFinalProjectVillamil</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="start">Start Measuring</string>
+    <string name="stop">Stop Measuring</string>
 
 </resources>
