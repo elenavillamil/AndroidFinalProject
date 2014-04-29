@@ -7,11 +7,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -26,24 +31,50 @@ public class MainActivity extends Activity {
 	private Button stopButton;
 	private TextView distanceTextView;
 	private LocationManager locationManager;
+	private Spinner clubSelectionSpinner;
+	private String clubSelection;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		clubSelectionSpinner = (Spinner) findViewById(R.id.clubs_sppiner);
 		startButton = (Button) findViewById(R.id.startB);
 		stopButton = (Button) findViewById(R.id.stopB);
 		distanceTextView = (TextView) findViewById(R.id.showDistance);
 		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.clubs_array, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		clubSelectionSpinner.setAdapter(adapter);
+
+		clubSelectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				// TODO Auto-generated method stub
+				clubSelection = parent.getItemAtPosition(position).toString();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				clubSelection = "Drive";
+			}
+			
+		});
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Log.i("myDebug", "start has been clicked");
 				startButtonClicked = true;
+    			distanceTextView.setText("0 meters");
 			}
 		});
 		
-		startButton.setOnClickListener(new OnClickListener() {
+		stopButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Log.i("myDebug", "stop has been clicked");
 				startButtonClicked = false;
 				measuring = false;
 				stopped = true;
@@ -61,16 +92,17 @@ public class MainActivity extends Activity {
 
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
+            	Log.i("myDebug", "insideChangeLocation");
               // Called when a new location is found by the network location provider.
             	if (startButtonClicked & !measuring & !stopped){
         			measuring = true;
-        			startLatitude = location.getLatitude();
-        			startLongitude = location.getLongitude();
+        			startLatitude = toRadians(location.getLatitude());
+        			startLongitude = toRadians(location.getLongitude());
         			distanceTextView.setText("0 meters");
         		}
         		else if(startButtonClicked & measuring & !stopped) {
         			//6371*cos-1(cos(Long1-Long2)cos(Lat1)cos(Lat2)+sin(Lat1)sin(Lat2)) 
-        			distance = 6371 * Math.acos(Math.cos(startLongitude - location.getLongitude()) * Math.cos(startLatitude) * Math.cos(location.getLatitude() + Math.sin(startLatitude) * Math.sin(location.getLatitude())));
+        			distance = 6371 * Math.acos(Math.cos(startLongitude - toRadians(location.getLongitude())) * Math.cos(startLatitude) * Math.cos(toRadians(location.getLatitude()) + Math.sin(startLatitude) * Math.sin(toRadians(location.getLatitude()))));
         			distanceTextView.setText(String.valueOf(distance) + " meters");
         		}
             }
@@ -86,6 +118,9 @@ public class MainActivity extends Activity {
         locationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
 	}
 
+	public double toRadians(double len) {
+		return len * 180 / Math.PI;
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -100,7 +135,7 @@ public class MainActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.distances) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

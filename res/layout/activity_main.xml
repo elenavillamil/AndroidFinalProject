@@ -8,15 +8,49 @@
     tools:context="com.example.androidfinalprojectvillamil.MainActivity"
     tools:ignore="MergeRootFrame" >
     
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/enter_score"
+        android:textColor="#008000"
+        android:textSize="35sp"
+        android:textStyle="bold" />
+    
+    <Spinner android:id="@+id/clubs_sppiner"
+	    android:layout_width="150dp"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="10dp" />
+	    
     <Button android:id="@+id/startB"
-         android:layout_width="wrap_content"
+        style="@style/button"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
       	android:text="@string/start"/>
+    
     <TextView android:id="@+id/showDistance"
-        android:layout_width="200dp"
-        android:layout_height="100dp" />
-    <Button android:id="@+id/stopB" 
-        android:layout_width="wrap_content"
+        style="@style/button"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:text="@string/zero" />
+    
+    <Button android:id="@+id/stopB" 
+        style="@style/button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="@string/stop" />
+    
+    <Button android:id="@+id/submit"
+        style="@style/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/submit" />
 </LinearLayout>

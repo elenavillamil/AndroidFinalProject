@@ -17,4 +17,9 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="button" >
+        <item name="android:background">@drawable/green_rectangle</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 </resources>
