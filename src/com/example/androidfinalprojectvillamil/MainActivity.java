@@ -1,5 +1,7 @@
 package com.example.androidfinalprojectvillamil;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.location.Criteria;
@@ -33,6 +35,8 @@ public class MainActivity extends Activity {
 	private LocationManager locationManager;
 	private Spinner clubSelectionSpinner;
 	private String clubSelection;
+	private Location locA;
+	private Location locB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +68,13 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.i("myDebug", "start has been clicked");
 				startButtonClicked = true;
-    			distanceTextView.setText("0 meters");
+				stopped = false;
+    			distanceTextView.setText("- meters");
 			}
 		});
 		
@@ -78,6 +84,8 @@ public class MainActivity extends Activity {
 				startButtonClicked = false;
 				measuring = false;
 				stopped = true;
+    			distanceTextView.setText("- meters");
+
 			}
 		});
 		
@@ -96,14 +104,28 @@ public class MainActivity extends Activity {
               // Called when a new location is found by the network location provider.
             	if (startButtonClicked & !measuring & !stopped){
         			measuring = true;
-        			startLatitude = toRadians(location.getLatitude());
-        			startLongitude = toRadians(location.getLongitude());
+        			locA = location;
         			distanceTextView.setText("0 meters");
         		}
         		else if(startButtonClicked & measuring & !stopped) {
-        			//6371*cos-1(cos(Long1-Long2)cos(Lat1)cos(Lat2)+sin(Lat1)sin(Lat2)) 
-        			distance = 6371 * Math.acos(Math.cos(startLongitude - toRadians(location.getLongitude())) * Math.cos(startLatitude) * Math.cos(toRadians(location.getLatitude()) + Math.sin(startLatitude) * Math.sin(toRadians(location.getLatitude()))));
-        			distanceTextView.setText(String.valueOf(distance) + " meters");
+
+        			//double earthRadius = 3958.75;
+        			//double dLat = Math.toRadians(location.getLatitude() - startLatitude);
+        			//double dLng = Math.toRadians(location.getLongitude() - startLongitude);
+        			//double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        				//		Math.cos(Math.toRadians(startLatitude)) * Math.cos(Math.toRadians(location.getLatitude())) *
+        					//	Math.sin(dLng/2) * Math.sin(dLng/2);
+        			//double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        			//double dist = earthRadius * c;
+        			
+        			//distance = dist * 1609;
+        			locB = location;
+        			
+        			float distance = locA.distanceTo(locB);
+
+        			DecimalFormat df = new DecimalFormat("#.00");
+
+        			distanceTextView.setText(String.valueOf(df.format(distance)) + " meters");
         		}
             }
 
