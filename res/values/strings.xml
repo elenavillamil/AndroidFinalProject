@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="delete">Delete Distance</string>
     <string name="app_name">AndroidFinalProjectVillamil</string>
     <string name="distances">Your Distances</string>
-    <string name="enter_score">Start Entering your Score!</string>
+    <string name="drivers">Drivers</string>
+    <string name="threeW">3 Woods</string>
+    <string name="fifeW">5 Woods</string>
+    <string name="hibrids">Hibrids</string>
+    <string name="fifeI">5 Irons</string>
+    <string name="sixI">6 Irons</string>
+    <string name="sevenI">7 Irons</string>
+    <string name="eightI">8 Irons</string>
+    <string name="nineI">9 Irons</string>
+	<string name="enter_score">Start Entering your Score!</string>
     <string name="start">Start Measuring</string>
     <string name="stop">Stop Measuring</string>
     <string name="submit">Submit Distance</string>
     <string name="zero">0 meters</string>
+    <string name="title_activity_distances">Distances</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

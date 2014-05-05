@@ -1,0 +1,113 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.androidfinalprojectvillamil.Distances"
+    tools:ignore="MergeRootFrame" >
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+	    <TextView android:id="@+id/driverText"
+	        style="@style/header2"
+	        android:text="@string/drivers"
+	        android:layout_alignParentLeft="true"/>
+	    
+	    <ListView android:id="@+id/drivesList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/driverText" />
+	        
+	    <TextView android:id="@+id/threeWText"
+	        style="@style/header2"
+	        android:text="@string/threeW"
+	        android:layout_below="@+id/driversList"
+	        android:layout_alignParentLeft="true"/>
+	    
+	    <ListView android:id="@+id/threeWList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/threeWText" />
+	    
+		<TextView android:id="@+id/fifeWText"
+	        style="@style/header2"
+	        android:text="@string/fifeW"
+	        android:layout_below="@+id/threeWList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/fifeWList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/fifeWText" />
+		
+		<TextView android:id="@+id/hibridText"
+	        style="@style/header2"
+	        android:text="@string/hibrids"
+	        android:layout_below="@+id/fifeWList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/hibridList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/hibridText" />
+		
+		<TextView android:id="@+id/fifeIText"
+	        style="@style/header2"
+	        android:text="@string/fifeI"
+	        android:layout_below="@+id/hibridList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/fifeIList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/fifeIText" />
+		
+		<TextView android:id="@+id/sixIText"
+	        style="@style/header2"
+	        android:text="@string/sixI"
+	        android:layout_below="@+id/fifeIList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/sixIList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/sixIText" />
+		
+		<TextView android:id="@+id/sevenIText"
+	        style="@style/header2"
+	        android:text="@string/sevenI"
+	        android:layout_below="@+id/sixIList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/sevenIList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/sevenIText" />
+		
+		<TextView android:id="@+id/eightIText"
+	        style="@style/header2"
+	        android:text="@string/eightI"
+	        android:layout_below="@+id/sevenIList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/eightIList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/eightIText" />
+		
+		<TextView android:id="@+id/nineIText"
+	        style="@style/header2"
+	        android:text="@string/nineI"
+	        android:layout_below="@+id/eightIList"
+	        android:layout_alignParentLeft="true"/>
+		
+		<ListView android:id="@+id/nineIList"
+	        style="@style/lists"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignRight="@id/nineIText" />
+		
+	</RelativeLayout>
+	
+</ScrollView>

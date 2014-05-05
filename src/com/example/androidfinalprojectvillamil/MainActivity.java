@@ -1,6 +1,7 @@
 package com.example.androidfinalprojectvillamil;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,25 +27,28 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationListener {
 
-	private double distance = 0.0;
-	private boolean startButtonClicked;
-	private boolean measuring;
-	private boolean stopped;
-	private boolean first;
+
 	private Button startButton;
 	private Button stopButton;
 	private TextView distanceTextView;
 	private LocationManager locationManager;
 	private Spinner clubSelectionSpinner;
 	private String clubSelection;
-	private Location locA;
-	private Location locB;
 	private String provider;
-	private Location oldLocation = null;
 	
+	private Location mStartLocation, mLastKnownLocation;
 	private DecimalFormat df = new DecimalFormat("#.00");
 
-	
+	private ArrayList<String> driveDistances = new ArrayList<String>();
+	private ArrayList<String> threeWDistances = new ArrayList<String>();
+	private ArrayList<String> fifeWDistances = new ArrayList<String>();
+	private ArrayList<String> hibridDistances = new ArrayList<String>();
+	private ArrayList<String> fifeIDistances = new ArrayList<String>();
+	private ArrayList<String> sixIDistances = new ArrayList<String>();
+	private ArrayList<String> sevenIDistances = new ArrayList<String>();
+	private ArrayList<String> eightIDistances = new ArrayList<String>();
+	private ArrayList<String> nineIDistances = new ArrayList<String>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,11 +69,11 @@ public class MainActivity extends Activity implements LocationListener {
 	    //crta.setAccuracy(Criteria.ACCURACY_FINE);
         provider = locationManager.getBestProvider(crta, false);
 
+		
 		clubSelectionSpinner = (Spinner) findViewById(R.id.clubs_sppiner);
 		startButton = (Button) findViewById(R.id.startB);
 		stopButton = (Button) findViewById(R.id.stopB);
 		distanceTextView = (TextView) findViewById(R.id.showDistance);
-		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.clubs_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,16 +105,118 @@ public class MainActivity extends Activity implements LocationListener {
 		
 		stopButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Boolean inserted = false;
 				Log.i("myDebugStopButton", "stop has been clicked");
-				if (locA != null) {
-					final float delta = locA.distanceTo(locB);
+				
+				if (mStartLocation != null) {
+					final float delta = mStartLocation.distanceTo(mLastKnownLocation);
 					
 	    			distanceTextView.setText(df.format(delta) + " meters");
-					locA = null;
 
+	    			if (clubSelection.equals("Drive")) {
+	    				for (int i = 0; i < driveDistances.size(); i ++) {
+	    					if (Float.valueOf(driveDistances.get(i)) > delta) {
+	    						driveDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					driveDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("3 Wood")) {
+	    				for (int i = 0; i < threeWDistances.size(); i ++) {
+	    					if (Float.valueOf(threeWDistances.get(i)) > delta) {
+	    						threeWDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					threeWDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("5 Wood")) {
+	    				for (int i = 0; i < fifeWDistances.size(); i ++) {
+	    					if (Float.valueOf(fifeWDistances.get(i)) > delta) {
+	    						fifeWDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					fifeWDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("Hibrid")) {
+	    				for (int i = 0; i < hibridDistances.size(); i ++) {
+	    					if (Float.valueOf(hibridDistances.get(i)) > delta) {
+	    						hibridDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					hibridDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("5 Iron")) {
+	    				for (int i = 0; i < fifeIDistances.size(); i ++) {
+	    					if (Float.valueOf(fifeIDistances.get(i)) > delta) {
+	    						fifeIDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					fifeIDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("6 Iron")) {
+	    				for (int i = 0; i < sixIDistances.size(); i ++) {
+	    					if (Float.valueOf(sixIDistances.get(i)) > delta) {
+	    						sixIDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					sixIDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("7 Iron")) {
+	    				for (int i = 0; i < sevenIDistances.size(); i ++) {
+	    					if (Float.valueOf(sevenIDistances.get(i)) > delta) {
+	    						sevenIDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					sevenIDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("8 Iron")) {
+	    				for (int i = 0; i < eightIDistances.size(); i ++) {
+	    					if (Float.valueOf(eightIDistances.get(i)) > delta) {
+	    						eightIDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					eightIDistances.add(df.format(delta));
+	    				}
+	    			} else if (clubSelection.equals("9 Iron")) {
+	    				for (int i = 0; i < nineIDistances.size(); i ++) {
+	    					if (Float.valueOf(nineIDistances.get(i)) > delta) {
+	    						nineIDistances.add(i, df.format(delta));
+	    						inserted = true;
+	    					}
+	    				}
+	    				
+	    				if (!inserted) {
+	    					nineIDistances.add(df.format(delta));
+	    				}
+	    			}
+	    			mStartLocation = null;
 				}
-    			locationManager.removeUpdates(MainActivity.this);
 
+    			locationManager.removeUpdates(MainActivity.this);
 			}
 		});
 		
@@ -119,7 +225,7 @@ public class MainActivity extends Activity implements LocationListener {
         //Location location = locationManager.getLastKnownLocation(provider);
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -135,6 +241,17 @@ public class MainActivity extends Activity implements LocationListener {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.distances) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("drivers", driveDistances);
+			intent.putExtra("3W", threeWDistances);
+			intent.putExtra("5W", fifeWDistances);
+			intent.putExtra("hibrid", hibridDistances);
+			intent.putExtra("5I", fifeIDistances);
+			intent.putExtra("6I", sixIDistances);
+			intent.putExtra("7I", sevenIDistances);
+			intent.putExtra("8I", eightIDistances);
+			intent.putExtra("9I", nineIDistances);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -142,16 +259,15 @@ public class MainActivity extends Activity implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		if (mStartLocation == null) {
+			mStartLocation = mLastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		} else {
+			mLastKnownLocation = location;
+		}
 		
-			if (locA == null) {
-				locA = locB = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			} else {
-				locB = location;
-			}
-			
-			final float delta = locA.distanceTo(locB);
-			distanceTextView.setText(String.valueOf(df.format(delta)) + " meters");
-			Toast.makeText(this, "Delta = " + delta, Toast.LENGTH_SHORT).show();
+		final float delta = mStartLocation.distanceTo(mLastKnownLocation);
+		distanceTextView.setText(String.valueOf(df.format(delta)) + " meters");
+		Toast.makeText(this, "Delta = " + delta, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
