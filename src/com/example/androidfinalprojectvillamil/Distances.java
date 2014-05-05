@@ -54,7 +54,7 @@ public class Distances extends Activity {
 		setContentView(R.layout.activity_distances);
 		
 		//find list views
-		drivesList = (ListView) findViewById(R.id.driversList);
+		drivesList = (ListView) findViewById(R.id.drivesList);
 		threeWList = (ListView) findViewById(R.id.threeWList);
 		fifeWList = (ListView) findViewById(R.id.fifeWList);
 		hibridList = (ListView) findViewById(R.id.hibridList);
@@ -149,7 +149,7 @@ public class Distances extends Activity {
 
 		switch (item.getItemId()) {
 		case R.id.deleteScore:
-			if (info.targetView == findViewById(R.id.driversList)) {
+			if (info.targetView == findViewById(R.id.drivesList)) {
 				drivesAdapter.remove(driveDistances.get(info.position));
 				drivesAdapter.notifyDataSetChanged();
 				return true;

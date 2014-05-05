@@ -13,100 +13,110 @@
 	    <TextView android:id="@+id/driverText"
 	        style="@style/header2"
 	        android:text="@string/drivers"
-	        android:layout_alignParentLeft="true"/>
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"/>
 	    
 	    <ListView android:id="@+id/drivesList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/driverText" />
+	        android:layout_alignTop="@id/driverText"
+	        android:layout_toRightOf="@id/driverText" />
 	        
 	    <TextView android:id="@+id/threeWText"
 	        style="@style/header2"
 	        android:text="@string/threeW"
-	        android:layout_below="@+id/driversList"
+	        android:layout_below="@id/drivesList"
 	        android:layout_alignParentLeft="true"/>
 	    
 	    <ListView android:id="@+id/threeWList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/threeWText" />
+	        android:layout_alignTop="@id/threeWText"
+	        android:layout_toRightOf="@id/threeWText" />
 	    
 		<TextView android:id="@+id/fifeWText"
 	        style="@style/header2"
 	        android:text="@string/fifeW"
-	        android:layout_below="@+id/threeWList"
+	        android:layout_below="@id/threeWList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/fifeWList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/fifeWText" />
+	        android:layout_alignTop="@id/fifeWText"
+	        android:layout_toRightOf="@id/fifeWText" />
 		
 		<TextView android:id="@+id/hibridText"
 	        style="@style/header2"
 	        android:text="@string/hibrids"
-	        android:layout_below="@+id/fifeWList"
+	        android:layout_below="@id/fifeWList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/hibridList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/hibridText" />
+	        android:layout_alignTop="@id/hibridText"
+	        android:layout_toRightOf="@id/hibridText" />
 		
 		<TextView android:id="@+id/fifeIText"
 	        style="@style/header2"
 	        android:text="@string/fifeI"
-	        android:layout_below="@+id/hibridList"
+	        android:layout_below="@id/hibridList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/fifeIList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/fifeIText" />
+	        android:layout_alignTop="@id/fifeIText"
+	        android:layout_toRightOf="@id/fifeIText" />
 		
 		<TextView android:id="@+id/sixIText"
 	        style="@style/header2"
 	        android:text="@string/sixI"
-	        android:layout_below="@+id/fifeIList"
+	        android:layout_below="@id/fifeIList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/sixIList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/sixIText" />
+	        android:layout_alignTop="@id/sixIText"
+	        android:layout_toRightOf="@id/sixIText" />
 		
 		<TextView android:id="@+id/sevenIText"
 	        style="@style/header2"
 	        android:text="@string/sevenI"
-	        android:layout_below="@+id/sixIList"
+	        android:layout_below="@id/sixIList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/sevenIList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/sevenIText" />
+	        android:layout_alignTop="@id/sevenIText"
+	        android:layout_toRightOf="@id/sevenIText" />
 		
 		<TextView android:id="@+id/eightIText"
 	        style="@style/header2"
 	        android:text="@string/eightI"
-	        android:layout_below="@+id/sevenIList"
+	        android:layout_below="@id/sevenIList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/eightIList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/eightIText" />
+	        android:layout_alignTop="@id/eightIText"
+	        android:layout_toRightOf="@id/eightIText" />
 		
 		<TextView android:id="@+id/nineIText"
 	        style="@style/header2"
 	        android:text="@string/nineI"
-	        android:layout_below="@+id/eightIList"
+	        android:layout_below="@id/eightIList"
 	        android:layout_alignParentLeft="true"/>
 		
 		<ListView android:id="@+id/nineIList"
 	        style="@style/lists"
 	        android:layout_alignParentRight="true"
-	        android:layout_alignRight="@id/nineIText" />
+	        android:layout_alignTop="@id/nineIText"
+	        android:layout_toRightOf="@id/nineIText" />
 		
 	</RelativeLayout>
 	
