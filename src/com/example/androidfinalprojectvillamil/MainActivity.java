@@ -4,11 +4,13 @@ import java.text.DecimalFormat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,15 +22,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LocationListener {
 
-	private double startLatitude;
-	private double startLongitude;
-	private double distance;
+	private double distance = 0.0;
 	private boolean startButtonClicked;
 	private boolean measuring;
 	private boolean stopped;
+	private boolean first;
 	private Button startButton;
 	private Button stopButton;
 	private TextView distanceTextView;
@@ -37,12 +39,32 @@ public class MainActivity extends Activity {
 	private String clubSelection;
 	private Location locA;
 	private Location locB;
+	private String provider;
+	private Location oldLocation = null;
+	
+	private DecimalFormat df = new DecimalFormat("#.00");
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+		
+		boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		
+		if (!enabled) {
+			Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			startActivity(intent);
+		}
+		
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		
+		Criteria crta = new Criteria();
+	    //crta.setAccuracy(Criteria.ACCURACY_FINE);
+        provider = locationManager.getBestProvider(crta, false);
+
 		clubSelectionSpinner = (Spinner) findViewById(R.id.clubs_sppiner);
 		startButton = (Button) findViewById(R.id.startB);
 		stopButton = (Button) findViewById(R.id.stopB);
@@ -71,78 +93,33 @@ public class MainActivity extends Activity {
 		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Log.i("myDebug", "start has been clicked");
-				startButtonClicked = true;
-				stopped = false;
-    			distanceTextView.setText("- meters");
+				Log.i("myDebugStartButton", "start has been clicked");
+    			distanceTextView.setText("0 meters");
+    			locationManager.requestLocationUpdates(provider, 1000, 1, MainActivity.this);
 			}
 		});
 		
 		stopButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Log.i("myDebug", "stop has been clicked");
-				startButtonClicked = false;
-				measuring = false;
-				stopped = true;
-    			distanceTextView.setText("- meters");
+				Log.i("myDebugStopButton", "stop has been clicked");
+				if (locA != null) {
+					final float delta = locA.distanceTo(locB);
+					
+	    			distanceTextView.setText(df.format(delta) + " meters");
+					locA = null;
+
+				}
+    			locationManager.removeUpdates(MainActivity.this);
 
 			}
 		});
 		
-		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		
-		Criteria crta = new Criteria();
-	    crta.setAccuracy(Criteria.ACCURACY_FINE);
-        String provider = locationManager.getBestProvider(crta, true);
-
         // String provider = LocationManager.GPS_PROVIDER;
         //Location location = locationManager.getLastKnownLocation(provider);
 
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-            	Log.i("myDebug", "insideChangeLocation");
-              // Called when a new location is found by the network location provider.
-            	if (startButtonClicked & !measuring & !stopped){
-        			measuring = true;
-        			locA = location;
-        			distanceTextView.setText("0 meters");
-        		}
-        		else if(startButtonClicked & measuring & !stopped) {
-
-        			//double earthRadius = 3958.75;
-        			//double dLat = Math.toRadians(location.getLatitude() - startLatitude);
-        			//double dLng = Math.toRadians(location.getLongitude() - startLongitude);
-        			//double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        				//		Math.cos(Math.toRadians(startLatitude)) * Math.cos(Math.toRadians(location.getLatitude())) *
-        					//	Math.sin(dLng/2) * Math.sin(dLng/2);
-        			//double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        			//double dist = earthRadius * c;
-        			
-        			//distance = dist * 1609;
-        			locB = location;
-        			
-        			float distance = locA.distanceTo(locB);
-
-        			DecimalFormat df = new DecimalFormat("#.00");
-
-        			distanceTextView.setText(String.valueOf(df.format(distance)) + " meters");
-        		}
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-          };
-          
-          
-        locationManager.requestLocationUpdates(provider, 1000, 0, locationListener);
 	}
-
-	public double toRadians(double len) {
-		return len * 180 / Math.PI;
-	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -161,6 +138,40 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		
+			if (locA == null) {
+				locA = locB = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			} else {
+				locB = location;
+			}
+			
+			final float delta = locA.distanceTo(locB);
+			distanceTextView.setText(String.valueOf(df.format(delta)) + " meters");
+			Toast.makeText(this, "Delta = " + delta, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		Toast.makeText(this, "Enabled new provider " + provider,
+				Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		Toast.makeText(this, "Disabled provider " + provider,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	
