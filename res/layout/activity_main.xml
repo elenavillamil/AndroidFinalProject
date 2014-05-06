@@ -23,22 +23,21 @@
         android:id="@+id/clubs_sppiner"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="25dp" />
 
     <Button
         android:id="@+id/startB"
         style="@style/button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/start" />
 
     <TextView
         android:id="@+id/showDistance"
-        style="@style/button"
-        android:layout_width="150dp"
+		android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"
         android:text="@string/zero" />
 

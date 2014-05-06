@@ -5,8 +5,49 @@
     tools:context="com.example.androidfinalprojectvillamil.MainActivity" >
 
     <item
-        android:id="@+id/distances"
-        android:showAsAction="always"
-        android:title="@string/distances"/>
+        android:id="@+id/drive"
+        android:showAsAction="never"
+        android:title="@string/drivers"/>
+    
+    <item
+        android:id="@+id/threeW"
+        android:showAsAction="never"
+        android:title="@string/threeW"/>
+    
+    <item
+        android:id="@+id/fifeW"
+        android:showAsAction="never"
+        android:title="@string/fifeW"/>
+    
+    <item
+        android:id="@+id/hibrids"
+        android:showAsAction="never"
+        android:title="@string/hibrids"/>
+    
+    <item
+        android:id="@+id/fifeI"
+        android:showAsAction="never"
+        android:title="@string/fifeI"/>
+    
+    <item
+        android:id="@+id/sixI"
+        android:showAsAction="never"
+        android:title="@string/sixI"/>
+    
+    <item
+        android:id="@+id/sevenI"
+        android:showAsAction="never"
+        android:title="@string/sevenI"/>
+    
+    <item
+        android:id="@+id/eightI"
+        android:showAsAction="never"
+        android:title="@string/eightI"/>
+    
+    <item
+        android:id="@+id/nineI"
+        android:showAsAction="never"
+        android:title="@string/nineI"/>
+    
 
 </menu>

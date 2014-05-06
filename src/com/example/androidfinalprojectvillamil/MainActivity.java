@@ -27,15 +27,17 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationListener {
 
+	private final int DISTANCE_REQUEST = 222;
 
 	private Button startButton;
 	private Button stopButton;
+	private Button submitDistance;
 	private TextView distanceTextView;
 	private LocationManager locationManager;
 	private Spinner clubSelectionSpinner;
 	private String clubSelection;
 	private String provider;
-	
+	private float distance;
 	private Location mStartLocation, mLastKnownLocation;
 	private DecimalFormat df = new DecimalFormat("#.00");
 
@@ -59,6 +61,7 @@ public class MainActivity extends Activity implements LocationListener {
 		boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		
 		if (!enabled) {
+			Log.i("myDebug", "starting intent to get GPS");
 			Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			startActivity(intent);
 		}
@@ -69,16 +72,20 @@ public class MainActivity extends Activity implements LocationListener {
 	    //crta.setAccuracy(Criteria.ACCURACY_FINE);
         provider = locationManager.getBestProvider(crta, false);
 
-		
+		//find views
 		clubSelectionSpinner = (Spinner) findViewById(R.id.clubs_sppiner);
 		startButton = (Button) findViewById(R.id.startB);
 		stopButton = (Button) findViewById(R.id.stopB);
+		submitDistance = (Button) findViewById(R.id.submit);
 		distanceTextView = (TextView) findViewById(R.id.showDistance);
+		
+		//setting adapter for the spinner
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.clubs_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		clubSelectionSpinner.setAdapter(adapter);
 
+		//listener for the spinner
 		clubSelectionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -95,6 +102,15 @@ public class MainActivity extends Activity implements LocationListener {
 			
 		});
 		
+		submitDistance.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Log.i("myDebugStartButton", "start has been clicked");
+    			distanceTextView.setText("");
+    			
+    			handleSubmission();
+			}
+		});
+		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.i("myDebugStartButton", "start has been clicked");
@@ -105,114 +121,13 @@ public class MainActivity extends Activity implements LocationListener {
 		
 		stopButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Boolean inserted = false;
 				Log.i("myDebugStopButton", "stop has been clicked");
 				
 				if (mStartLocation != null) {
 					final float delta = mStartLocation.distanceTo(mLastKnownLocation);
-					
+					distance = delta;
 	    			distanceTextView.setText(df.format(delta) + " meters");
-
-	    			if (clubSelection.equals("Drive")) {
-	    				for (int i = 0; i < driveDistances.size(); i ++) {
-	    					if (Float.valueOf(driveDistances.get(i)) > delta) {
-	    						driveDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					driveDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("3 Wood")) {
-	    				for (int i = 0; i < threeWDistances.size(); i ++) {
-	    					if (Float.valueOf(threeWDistances.get(i)) > delta) {
-	    						threeWDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					threeWDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("5 Wood")) {
-	    				for (int i = 0; i < fifeWDistances.size(); i ++) {
-	    					if (Float.valueOf(fifeWDistances.get(i)) > delta) {
-	    						fifeWDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					fifeWDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("Hibrid")) {
-	    				for (int i = 0; i < hibridDistances.size(); i ++) {
-	    					if (Float.valueOf(hibridDistances.get(i)) > delta) {
-	    						hibridDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					hibridDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("5 Iron")) {
-	    				for (int i = 0; i < fifeIDistances.size(); i ++) {
-	    					if (Float.valueOf(fifeIDistances.get(i)) > delta) {
-	    						fifeIDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					fifeIDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("6 Iron")) {
-	    				for (int i = 0; i < sixIDistances.size(); i ++) {
-	    					if (Float.valueOf(sixIDistances.get(i)) > delta) {
-	    						sixIDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					sixIDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("7 Iron")) {
-	    				for (int i = 0; i < sevenIDistances.size(); i ++) {
-	    					if (Float.valueOf(sevenIDistances.get(i)) > delta) {
-	    						sevenIDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					sevenIDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("8 Iron")) {
-	    				for (int i = 0; i < eightIDistances.size(); i ++) {
-	    					if (Float.valueOf(eightIDistances.get(i)) > delta) {
-	    						eightIDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					eightIDistances.add(df.format(delta));
-	    				}
-	    			} else if (clubSelection.equals("9 Iron")) {
-	    				for (int i = 0; i < nineIDistances.size(); i ++) {
-	    					if (Float.valueOf(nineIDistances.get(i)) > delta) {
-	    						nineIDistances.add(i, df.format(delta));
-	    						inserted = true;
-	    					}
-	    				}
-	    				
-	    				if (!inserted) {
-	    					nineIDistances.add(df.format(delta));
-	    				}
-	    			}
+	    			
 	    			mStartLocation = null;
 				}
 
@@ -220,12 +135,115 @@ public class MainActivity extends Activity implements LocationListener {
 			}
 		});
 		
-		
-        // String provider = LocationManager.GPS_PROVIDER;
-        //Location location = locationManager.getLastKnownLocation(provider);
-
 	}
 
+	
+	public void handleSubmission() {
+		Boolean inserted = false;
+
+		if (clubSelection.equals("Drive")) {
+			for (int i = 0; i < driveDistances.size(); i ++) {
+				if (Float.valueOf(driveDistances.get(i)) > distance) {
+					driveDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				driveDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("3 Wood")) {
+			for (int i = 0; i < threeWDistances.size(); i ++) {
+				if (Float.valueOf(threeWDistances.get(i)) > distance) {
+					threeWDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				threeWDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("5 Wood")) {
+			for (int i = 0; i < fifeWDistances.size(); i ++) {
+				if (Float.valueOf(fifeWDistances.get(i)) > distance) {
+					fifeWDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				fifeWDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("Hibrid")) {
+			for (int i = 0; i < hibridDistances.size(); i ++) {
+				if (Float.valueOf(hibridDistances.get(i)) > distance) {
+					hibridDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				hibridDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("5 Iron")) {
+			for (int i = 0; i < fifeIDistances.size(); i ++) {
+				if (Float.valueOf(fifeIDistances.get(i)) > distance) {
+					fifeIDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				fifeIDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("6 Iron")) {
+			for (int i = 0; i < sixIDistances.size(); i ++) {
+				if (Float.valueOf(sixIDistances.get(i)) > distance) {
+					sixIDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				sixIDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("7 Iron")) {
+			for (int i = 0; i < sevenIDistances.size(); i ++) {
+				if (Float.valueOf(sevenIDistances.get(i)) > distance) {
+					sevenIDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				sevenIDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("8 Iron")) {
+			for (int i = 0; i < eightIDistances.size(); i ++) {
+				if (Float.valueOf(eightIDistances.get(i)) > distance) {
+					eightIDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				eightIDistances.add(df.format(distance));
+			}
+		} else if (clubSelection.equals("9 Iron")) {
+			for (int i = 0; i < nineIDistances.size(); i ++) {
+				if (Float.valueOf(nineIDistances.get(i)) > distance) {
+					nineIDistances.add(i, df.format(distance));
+					inserted = true;
+				}
+			}
+			
+			if (!inserted) {
+				nineIDistances.add(df.format(distance));
+			}
+		}
+	}
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -234,29 +252,115 @@ public class MainActivity extends Activity implements LocationListener {
 		return true;
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.distances) {
+		if (id == R.id.drive) {
 			Intent intent = new Intent(this, Distances.class);
-			intent.putExtra("drivers", driveDistances);
-			intent.putExtra("3W", threeWDistances);
-			intent.putExtra("5W", fifeWDistances);
-			intent.putExtra("hibrid", hibridDistances);
-			intent.putExtra("5I", fifeIDistances);
-			intent.putExtra("6I", sixIDistances);
-			intent.putExtra("7I", sevenIDistances);
-			intent.putExtra("8I", eightIDistances);
-			intent.putExtra("9I", nineIDistances);
-			startActivity(intent);
+			intent.putExtra("distances", driveDistances);
+			intent.putExtra("Header", "Driver Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.threeW) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", threeWDistances);
+			intent.putExtra("Header", "3 Wood Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.fifeW) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", fifeWDistances);
+			intent.putExtra("Header", "5 Wood Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.hibrids) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", hibridDistances);
+			intent.putExtra("Header", "Hibrid Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.fifeI) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", fifeIDistances);
+			intent.putExtra("Header", "5 Iron Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+			
+		} else if (id == R.id.sixI) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", sixIDistances);
+			intent.putExtra("Header", "6 Iron Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.sevenI) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", sevenIDistances);
+			intent.putExtra("Header", "7 Iron Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.eightI) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", eightIDistances);
+			intent.putExtra("Header", "8 Iron Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
+			return true;
+		} else if (id == R.id.nineI) {
+			Intent intent = new Intent(this, Distances.class);
+			intent.putExtra("distances", nineIDistances);
+			intent.putExtra("Header", "9 Iron Distances");
+			
+			startActivityForResult(intent, DISTANCE_REQUEST);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == DISTANCE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+			String header = data.getStringExtra("header");
+			
+			if (header == "Driver Distances") {
+				driveDistances = data.getStringArrayListExtra("distances");
 
+			} else if (header == "3 Wood Distances") {
+				threeWDistances = data.getStringArrayListExtra("distances");
+
+			} else if (header == "5 Wood Distances") {
+				fifeWDistances = data.getStringArrayListExtra("distances");
+				
+			} else if (header == "5 Iron Distances") {
+				fifeIDistances = data.getStringArrayListExtra("distances");
+				
+			} else if (header == "6 Iron Distances") {
+				sixIDistances = data.getStringArrayListExtra("distances");
+				
+			} else if (header == "7 Iron Distances") {
+				sevenIDistances = data.getStringArrayListExtra("distances");
+				
+			} else if (header == "8 Iron Distances") {
+				eightIDistances = data.getStringArrayListExtra("distances");
+				
+			} else if (header == "9 Iron Distances") {
+				nineIDistances = data.getStringArrayListExtra("distances");
+				
+			} 
+		}
+	}
+
+	
 	@Override
 	public void onLocationChanged(Location location) {
 		if (mStartLocation == null) {
