@@ -50,6 +50,17 @@ public class Distances extends Activity {
 	}
 	
 	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.putStringArrayListExtra("distances", mDistances);
+		intent.putExtra("Header", mHeader);
+		setResult(Activity.RESULT_OK, intent);
+		super.onBackPressed();
+
+	}
+
+	
+	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);

@@ -329,31 +329,34 @@ public class MainActivity extends Activity implements LocationListener {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("myDebugIntentBack", data.toString());
+		
 		if (requestCode == DISTANCE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-			String header = data.getStringExtra("header");
+			String header = data.getStringExtra("Header");
 			
-			if (header == "Driver Distances") {
+			if (header.equals("Driver Distances")) {
+				
 				driveDistances = data.getStringArrayListExtra("distances");
 
-			} else if (header == "3 Wood Distances") {
+			} else if (header.equals("3 Wood Distances")) {
 				threeWDistances = data.getStringArrayListExtra("distances");
 
-			} else if (header == "5 Wood Distances") {
+			} else if (header.equals("5 Wood Distances")) {
 				fifeWDistances = data.getStringArrayListExtra("distances");
 				
-			} else if (header == "5 Iron Distances") {
+			} else if (header.equals("5 Iron Distances")) {
 				fifeIDistances = data.getStringArrayListExtra("distances");
 				
-			} else if (header == "6 Iron Distances") {
+			} else if (header.equals("6 Iron Distances")) {
 				sixIDistances = data.getStringArrayListExtra("distances");
 				
-			} else if (header == "7 Iron Distances") {
+			} else if (header.equals("7 Iron Distances")) {
 				sevenIDistances = data.getStringArrayListExtra("distances");
 				
-			} else if (header == "8 Iron Distances") {
+			} else if (header.equals("8 Iron Distances")) {
 				eightIDistances = data.getStringArrayListExtra("distances");
 				
-			} else if (header == "9 Iron Distances") {
+			} else if (header.equals("9 Iron Distances")) {
 				nineIDistances = data.getStringArrayListExtra("distances");
 				
 			} 
