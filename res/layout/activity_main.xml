@@ -38,8 +38,7 @@
 		android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:gravity="center_horizontal"
-        android:text="@string/zero" />
+        android:gravity="center_horizontal" />
 
     <Button
         android:id="@+id/stopB"
@@ -52,6 +51,8 @@
     <Button
         android:id="@+id/submit"
         style="@style/button"
+        android:enabled="false"
+        android:background="@drawable/light_green_rectangle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 	private final int DISTANCE_REQUEST = 222;
 
+	private boolean startClick;
 	private Button startButton;
 	private Button stopButton;
 	private Button submitDistance;
@@ -108,20 +109,34 @@ public class MainActivity extends Activity implements LocationListener {
     			distanceTextView.setText("");
     			
     			handleSubmission();
+    			
+				submitDistance.setEnabled(false);
+				submitDistance.setBackgroundResource(R.drawable.light_green_rectangle);
 			}
 		});
 		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.i("myDebugStartButton", "start has been clicked");
+				
+				submitDistance.setEnabled(false);
+				submitDistance.setBackgroundResource(R.drawable.light_green_rectangle);
+
     			distanceTextView.setText("0 meters");
     			locationManager.requestLocationUpdates(provider, 1000, 1, MainActivity.this);
+    			startClick = true;
 			}
 		});
 		
 		stopButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.i("myDebugStopButton", "stop has been clicked");
+				
+				if (startClick) {
+					submitDistance.setEnabled(true);
+					submitDistance.setBackgroundResource(R.drawable.green_rectangle);
+
+				}
 				
 				if (mStartLocation != null) {
 					final float delta = mStartLocation.distanceTo(mLastKnownLocation);
