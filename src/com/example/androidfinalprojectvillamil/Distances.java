@@ -40,8 +40,8 @@ public class Distances extends Activity {
 		
 		//set adapters in lists
 		mAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1,
-				android.R.id.text1, mDistances);
+				R.layout.my_text_view,
+				R.id.text1, mDistances);
 		mDistancesList.setAdapter(mAdapter);
 		
 		mHeaderTextView.setText(mHeader);
